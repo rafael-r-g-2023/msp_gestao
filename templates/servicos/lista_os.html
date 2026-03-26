@@ -1,0 +1,101 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Ordens de Serviço</h1>
+
+
+<a href="/servicos/nova-os/">
+    <button>
+        + Nova OS
+    </button>
+</a>
+
+<br><br>
+
+
+Filtro:
+
+<a href="/servicos/os/">Todas</a> |
+
+<a href="/servicos/os/?status=agendado">Agendado</a> |
+
+<a href="/servicos/os/?status=executado">Executado</a> |
+
+<a href="/servicos/os/?status=cancelado">Cancelado</a>
+
+
+<br><br>
+
+
+<table border="1" width="100%" cellpadding="5">
+
+<tr>
+
+<th>Nº</th>
+<th>Cliente</th>
+<th>Data</th>
+<th>Status</th>
+<th>Total</th>
+<th>Ações</th>
+
+</tr>
+
+
+{% for os in ordens %}
+
+<tr>
+
+<td>{{ os.id }}</td>
+
+<td>{{ os.cliente }}</td>
+
+<td>{{ os.data }}</td>
+
+<td>
+
+    {% if os.status == "agendado" %}
+    <span class="status-agendado">
+    Agendado
+    </span>
+    
+    {% elif os.status == "executado" %}
+    <span class="status-executado">
+    Executado
+    </span>
+    
+    {% elif os.status == "cancelado" %}
+    <span class="status-cancelado">
+    Cancelado
+    </span>
+    
+    {% endif %}
+    
+</td>
+
+<td>R$ {{ os.total }}</td>
+
+<td>
+
+    <a href="/servicos/os/{{ os.id }}/editar/">
+        <button>Editar</button>
+        </a>
+        
+        <a href="/servicos/os-pdf/{{ os.id }}/" target="_blank">
+        <button>PDF</button>
+        </a>
+        
+        <a href="/servicos/os/{{ os.id }}/excluir/"
+        onclick="return confirm('Excluir?')">
+        <button>Excluir</button>
+    </a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

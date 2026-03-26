@@ -1,0 +1,66 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Serviços</h1>
+
+<a href="/servicos/novo/">
+    <button>Novo Serviço</button>
+</a>
+
+<h2>Filtro</h2>
+
+<a href="/servicos/">Todos</a> |
+
+<a href="/servicos/?status=agendado">Agendado</a> |
+
+<a href="/servicos/?status=executado">Executado</a> |
+
+<a href="/servicos/?status=cancelado">Cancelado</a> |
+
+<a href="/servicos/hoje/">Hoje</a>
+
+<br><br>
+
+<table border="1" width="100%" cellpadding="5">
+
+<tr>
+<th>Cliente</th>
+<th>Tipo</th>
+<th>Valor</th>
+<th>Data</th>
+<th>Status</th>
+<th>Ações</th>
+</tr>
+
+{% for s in servicos %}
+
+<tr>
+<td>{{ s.cliente }}</td>
+<td>{{ s.tipo_servico }}</td>
+<td>R$ {{ s.valor }}</td>
+<td>{{ s.data }}</td>
+<td>{{ s.status }}</td>
+<td>
+    <a href="/servicos/os/{{ s.id }}/">
+        PDF
+    </a>
+    
+    <a href="/servicos/editar/{{ s.id }}/">
+        Editar
+    </a>
+
+    <a href="/servicos/excluir/{{ s.id }}/"
+   onclick="return confirm('Tem certeza que deseja excluir este serviço?')">
+   Excluir
+    </a>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

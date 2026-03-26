@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Lançamentos</h1>
+
+<table border="1">
+
+    <tr>
+        <th>Data</th>
+        <th>Tipo</th>
+        <th>Categoria</th>
+        <th>Veículo</th>
+        <th>Descrição</th>
+        <th>Valor</th>
+    </tr>
+
+{% for lancamento in lancamentos %}
+<tr>
+<td>{{ lancamento.data }}</td>
+<td>{{ lancamento.tipo }}</td>
+<td>{{ lancamento.categoria }}</td>
+<td>{{ lancamento.veiculo }}</td>
+<td>{{ lancamento.descricao }}</td>
+<td>R$ {{ lancamento.valor }}</td>
+</tr>
+
+{% endfor %}
+
+</table>
+
+{% endblock %}

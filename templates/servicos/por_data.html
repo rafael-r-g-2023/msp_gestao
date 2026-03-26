@@ -1,0 +1,75 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h1>Serviços por Data</h1>
+
+<form method="get">
+
+    <input type="date" name="data">
+
+    <button type="submit">
+        Buscar
+    </button>
+
+</form>
+
+<h2>Agenda do dia</h2>
+
+<p>
+Total do dia: R$ {{ total_dia }} |
+Qtd: {{ quantidade }}
+</p>
+
+<table border="1">
+
+<tr>
+    <th>Cliente</th>
+    <th>Tipo</th>
+    <th>Valor</th>
+    <th>Data</th>
+    <th>Status</th>
+    <th>Editar</th>
+</tr>
+
+{% for s in servicos %}
+<tr>
+
+<td>{{ s.cliente }}</td>
+
+<td>
+{% for item in s.itens.all %}
+{{ item.tipo_servico }}<br>
+{% endfor %}
+</td>
+
+<td>R$ {{ s.total }}</td>
+
+<td>{{ s.data }}</td>
+
+<td>
+
+{% if s.status == "executado" %}
+<span style="color:green">Executado</span>
+
+{% elif s.status == "agendado" %}
+<span style="color:orange">Agendado</span>
+
+{% else %}
+<span style="color:red">Cancelado</span>
+{% endif %}
+
+</td>
+
+<td>
+    <a href="{% url 'editar_os' s.id %}">
+Editar
+</a>
+</td>
+
+</tr>
+{% endfor %}
+
+</table>
+
+{% endblock %}

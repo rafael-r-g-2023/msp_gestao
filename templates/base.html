@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <title>MSP Gestão</title>
+
+    <style>
+
+        body {
+            font-family: Arial;
+            margin: 0;
+            background: #f5f5f5;
+        }
+        
+        .topo {
+            background: #111;
+            color: white;
+            padding: 10px 20px;
+        }
+        
+        .menu {
+            background: #222;
+            padding: 10px;
+        }
+        
+        .menu a {
+            color: white;
+            margin-right: 15px;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        
+        .menu a:hover {
+            text-decoration: underline;
+        }
+        
+        .container {
+            padding: 20px;
+        }
+        
+        
+        /* ===== TABELA ===== */
+        
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        th {
+            background: #333;
+            color: white;
+            padding: 10px;
+            text-align: center;
+        }
+
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+            text-align: center;
+        }
+
+        /* 💰 colunas de valores alinhadas à direita */
+        th:nth-child(4),
+        th:nth-child(5),
+        th:nth-child(7),
+        th:nth-child(9),
+        th:nth-child(10) {
+            text-align: right;
+        }
+
+        /* hover bonito */
+        tr:hover {
+            background: #f5f5f5;
+        }
+        
+        
+        /* ===== BOTÕES ===== */
+        
+        button {
+            background: #1976d2;
+            color: white;
+            border: none;
+            padding: 6px 10px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+        
+        button:hover {
+            background: #0d47a1;
+        }
+        
+        
+        /* ===== STATUS ===== */
+        
+        .status-agendado {
+            color: orange;
+            font-weight: bold;
+        }
+        
+        .status-executado {
+            color: green;
+            font-weight: bold;
+        }
+        
+        .status-cancelado {
+            color: red;
+            font-weight: bold;
+        }
+
+        /* ===== CARDS DASHBOARD ===== */
+
+    .cards {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: white;
+        border-radius: 8px;
+        padding: 15px;
+        text-align: center;
+        font-size: 18px;
+        font-weight: bold;
+        box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+    }
+
+    .card h3 {
+        margin: 0 0 10px 0;
+        font-size: 16px;
+    }
+
+    /* ===== CARDS ===== */
+
+    .cards {
+        display: flex;
+        gap: 15px;
+        margin-bottom: 20px;
+    }
+
+    .card {
+        background: white;
+        padding: 15px;
+        border-radius: 8px;
+        box-shadow: 0 0 5px #ccc;
+        flex: 1;
+        text-align: center;
+    }
+
+    .card h3 {
+        margin: 0;
+        font-size: 16px;
+        color: #555;
+    }
+
+    .card .valor {
+        font-size: 22px;
+        font-weight: bold;
+        margin-top: 5px;
+    }
+
+    .verde {
+        color: green;
+    }
+
+    .vermelho {
+        color: red;
+    }
+        
+        </style>
+
+</head>
+
+<body>
+
+<div class="topo">
+    <h2>MSP Gestão</h2>
+</div>
+
+<div class="menu">
+
+    <a href="/">Dashboard</a>
+    <a href="/financeiro/">Financeiro</a>
+    <a href="/servicos/os/">Ordens de Serviço</a>
+    <a href="/servicos/nova-os/">Nova OS</a>
+    <a href="/servicos/data/">Agenda</a>
+    <a href="/admin/">Admin</a>
+
+</div>
+
+<div class="container">
+
+{% block content %}
+{% endblock %}
+
+</div>
+
+</body>
+</html>

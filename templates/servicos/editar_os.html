@@ -1,0 +1,118 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<a href="/servicos/os-pdf/{{ os.id }}/" target="_blank">
+    <button>PDF</button>
+</a>
+
+<a href="/servicos/os/{{ os.id }}/duplicar/">
+    <button>Duplicar</button>
+</a>
+
+<a href="/servicos/os/{{ os.id }}/excluir/" onclick="return confirm('Excluir OS?')">
+    <button>Excluir OS</button>
+</a>
+
+<a href="/servicos/">
+    <button>Voltar</button>
+</a>
+
+<hr>
+
+<h2>Dados da OS</h2>
+
+<form method="post" action="{% url 'editar_os' os.id %}">
+    {% csrf_token %}
+
+    <p>
+        Cliente:<br>
+        {{ form_os.cliente }}
+    </p>
+
+    <p>
+        Data:<br>
+        {{ form_os.data }}
+    </p>
+
+    <p>
+        Status:<br>
+        {{ form_os.status }}
+    </p>
+
+    <p>
+        Veículo:<br>
+        {{ form_os.veiculo }}
+    </p>
+
+    <p>
+        Preço do combustível (R$/L):<br>
+        {{ form_os.preco_combustivel }}
+    </p>
+
+    <p>
+        KM Rodado:<br>
+        {{ form_os.km_rodado }}
+    </p>
+
+    <p>
+        Funcionários:<br>
+        {{ form_os.funcionarios }}
+    </p>
+
+    <p>
+        Observação:<br>
+        {{ form_os.observacao }}
+    </p>
+
+    <button type="submit" name="salvar_os">
+        Salvar OS
+    </button>
+</form>
+
+<hr>
+
+<h2>Adicionar Serviço</h2>
+
+<form method="post" action="{% url 'editar_os' os.id %}">
+    {% csrf_token %}
+    {{ form_item.as_p }}
+
+    <button type="submit" name="adicionar_item">
+        Adicionar
+    </button>
+</form>
+
+<hr>
+
+<h2>Itens</h2>
+
+<table border="1" width="100%">
+    <tr>
+        <th>Serviço</th>
+        <th>Qtd</th>
+        <th>Unit</th>
+        <th>Total</th>
+        <th>Ações</th>
+    </tr>
+
+    {% for item in itens %}
+    <tr>
+        <td>{{ item.tipo_servico }}</td>
+        <td>{{ item.quantidade }}</td>
+        <td>R$ {{ item.valor_unitario }}</td>
+        <td>R$ {{ item.valor }}</td>
+        <td>
+            <a href="/servicos/item/{{ item.id }}/excluir/" onclick="return confirm('Excluir item?')">
+                Excluir
+            </a>
+        </td>
+    </tr>
+    {% endfor %}
+</table>
+
+<hr>
+
+<h2>TOTAL: R$ {{ os.total }}</h2>
+
+{% endblock %}

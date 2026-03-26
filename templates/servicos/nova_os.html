@@ -1,0 +1,13 @@
+<h1>Nova Ordem de Serviço</h1>
+
+<form method="post">
+
+    {% csrf_token %}
+
+    {{ form.as_p }}
+
+    <button type="submit">
+        Criar OS
+    </button>
+
+</form>

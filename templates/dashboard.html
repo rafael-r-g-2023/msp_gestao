@@ -1,0 +1,291 @@
+{% extends 'base.html' %}
+
+{% block content %}
+
+<h2>Resumo</h2>
+
+<div class="cards">
+
+    <div class="card">
+        <h3>Receitas</h3>
+        <div class="valor verde">
+            R$ {{ total_receitas }}
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Despesas</h3>
+        <div class="valor vermelho">
+            R$ {{ total_despesas }}
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Lucro</h3>
+
+        <div class="valor
+            {% if lucro >= 0 %}
+                verde
+            {% else %}
+                vermelho
+            {% endif %}
+        ">
+            R$ {{ lucro }}
+        </div>
+
+    </div>
+
+    <div class="card">
+        <h3>Serviços</h3>
+        <div class="valor">
+            {{ total_servicos }}
+        </div>
+    </div>
+
+</div>
+
+
+<h2>Hoje</h2>
+
+<div class="cards">
+
+    <div class="card">
+        <h3>Receita hoje</h3>
+        <div class="valor verde">
+            R$ {{ receitas_hoje }}
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Despesa hoje</h3>
+        <div class="valor vermelho">
+            R$ {{ despesas_hoje }}
+        </div>
+    </div>
+
+    <div class="card">
+        <h3>Lucro hoje</h3>
+
+        <div class="valor
+            {% if lucro_hoje >= 0 %}
+                verde
+            {% else %}
+                vermelho
+            {% endif %}
+        ">
+            R$ {{ lucro_hoje }}
+        </div>
+
+    </div>
+
+    <div class="card">
+        <h3>Serviços hoje</h3>
+        <div class="valor">
+            {{ servicos_hoje }}
+        </div>
+    </div>
+
+</div>
+
+<h2>Custo do carro</h2>
+
+<div class="cards">
+
+    <div class="card">
+        <h3>Combustível</h3>
+        {{ gasto_combustivel }}
+    </div>
+
+    <div class="card">
+        <h3>Manutenção</h3>
+        {{ gasto_manutencao }}
+    </div>
+
+    <div class="card">
+        <h3>Total carro</h3>
+        {{ gasto_carro }}
+    </div>
+
+</div>
+
+<h2>Custos por categoria</h2>
+
+<div class="cards">
+
+{% for c in resumo_categoria %}
+
+    <div class="card">
+        <h3>{{ c.categoria__nome }}</h3>
+
+        <div class="valor vermelho">
+            R$ {{ c.total }}
+        </div>
+    </div>
+
+{% endfor %}
+
+</div>
+
+<h2>Custos por veículo</h2>
+
+<div class="cards">
+
+{% for v in custos_veiculo %}
+    <div class="card">
+        <h3>{{ v.veiculo__nome }}</h3>
+        <div class="valor vermelho">
+            R$ {{ v.total|floatformat:2 }}
+        </div>
+    </div>
+{% endfor %}
+
+</div>
+
+<h2>Faturamento por mês</h2>
+
+<canvas id="grafico"></canvas>
+
+<h2>Despesas por categoria</h2>
+
+<canvas id="grafico_categoria"></canvas>
+
+<h2>Custo por dia</h2>
+
+<canvas id="grafico_dia"></canvas>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+<script>
+
+const meses = JSON.parse('{{ meses|safe }}');
+const receitas = JSON.parse('{{ receitas|safe }}');
+const despesas = JSON.parse('{{ despesas|safe }}');
+
+new Chart(
+    document.getElementById('grafico'),
+    {
+        type: 'bar',
+        data: {
+            labels: meses,
+            datasets: [
+
+                {
+                    label: 'Receitas',
+                    data: receitas,
+                },
+
+                {
+                    label: 'Despesas',
+                    data: despesas,
+                }
+
+            ]
+        }
+    }
+);
+
+</script>
+
+
+<script>
+
+const categorias = JSON.parse('{{ categorias|safe }}');
+const valores_categoria = JSON.parse('{{ valores_categoria|safe }}');
+
+new Chart(
+    document.getElementById('grafico_categoria'),
+    {
+        type: 'pie',
+        data: {
+            labels: categorias,
+            datasets: [
+                {
+                    data: valores_categoria,
+                }
+            ]
+        }
+    }
+);
+
+</script>
+
+<h2>Lucro por Ordem de Serviço</h2>
+
+<div class="card">
+
+<table>
+
+    <tr>
+        <th>ID</th>
+        <th>Cliente</th>
+        <th>Data</th>
+        <th>Total</th>
+        <th>Despesa dia</th>
+        <th>Funcionários</th>
+        <th>Custo func</th>
+        <th>KM</th>
+        <th>Custo KM</th>
+        <th>Lucro</th>
+    </tr>
+
+{% for os in lista_os %}
+
+<tr>
+
+    <td>{{ os.id }}</td>
+    <td>{{ os.cliente }}</td>
+    <td>{{ os.data|date:"d/m/Y" }}</td>
+    <td>R$ {{ os.total|floatformat:2 }}</td>
+    <td>R$ {{ os.despesas|floatformat:2 }}</td>
+    <td>{{ os.funcionarios }}</td>
+    <td>R$ {{ os.custo_func|floatformat:2 }}</td>
+    <td>{{ os.km_rodado|floatformat:1 }}</td>
+    <td>R$ {{ os.custo_km|floatformat:2 }}</td>
+    
+    <td>
+        {% if os.lucro >= 0 %}
+        <span style="color:green;font-weight:bold;">
+        R$ {{ os.lucro|floatformat:2 }}
+        </span>
+        {% else %}
+        <span style="color:red;font-weight:bold;">
+        R$ {{ os.lucro|floatformat:2 }}
+        </span>
+        {% endif %}
+    </td>
+    
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+<script>
+
+    const dias = JSON.parse('{{ dias|safe }}');
+    const valores_dia = JSON.parse('{{ valores_dia|safe }}');
+    
+    new Chart(
+        document.getElementById('grafico_dia'),
+        {
+            type: 'line',
+            data: {
+                labels: dias,
+                datasets: [
+                    {
+                        label: 'Custo por dia',
+                        data: valores_dia,
+                    }
+                ]
+            }
+        }
+    );
+    
+    </script>
+
+
+{% endblock %}
