@@ -351,7 +351,6 @@ def editar_os(request, id):
                 os = form_os.save(commit=False)
                 os.save()
                 form_os.save_m2m()
-                os.atualizar_lancamento_receita()
 
                 return redirect("editar_os", id=os.id)
 
@@ -363,10 +362,10 @@ def editar_os(request, id):
                 item.ordem = os
                 item.save()
 
-            os.calcular_total()
-            os.save()
+                os.calcular_total()
+                os.save()
 
-            return redirect("editar_os", id=os.id)
+                return redirect("editar_os", id=os.id)
         
     itens = ItemServico.objects.filter(ordem=os)
 
